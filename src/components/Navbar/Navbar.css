@@ -1,0 +1,201 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  height: var(--nav-height);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 32px;
+}
+
+.navbar-logo {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--brand-blue);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 4px;
+  flex: 1;
+}
+
+.navbar-links a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-700);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+}
+
+.navbar-links a:hover { color: var(--gray-900); background: var(--gray-100); }
+.navbar-links a.active { color: var(--brand-blue); font-weight: 500; }
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-100);
+  border-radius: 20px;
+  padding: 8px 14px;
+  color: var(--gray-400);
+  transition: background 0.15s;
+}
+
+.navbar-search:focus-within {
+  background: var(--gray-200);
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 1px;
+}
+
+.navbar-search input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--gray-900);
+  width: 160px;
+}
+
+.navbar-search input::placeholder { color: var(--gray-400); }
+
+.navbar-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--gray-600);
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+}
+
+.navbar-icon-btn:hover { background: var(--gray-100); color: var(--gray-900); }
+
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: black;
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+
+.navbar-account { position: relative; }
+
+.navbar-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--hero-gradient);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-user-btn { padding: 0; }
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  padding: 12px 0 8px;
+  z-index: 200;
+  animation: fadeUp 0.15s ease both;
+}
+
+.account-dropdown-name {
+  padding: 0 14px 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.account-dropdown-email {
+  padding: 0 14px 10px;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+}
+
+.account-dropdown-divider {
+  border: none;
+  border-top: 1px solid var(--gray-100);
+  margin: 0 0 6px;
+}
+
+.account-dropdown-logout {
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  color: var(--red);
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.account-dropdown-logout:hover { background: var(--gray-50); }
+
+
+.account-dropdown-auth-btn {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 4px 14px;
+  padding: 9px 14px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1.5px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-900);
+  transition: background 0.15s;
+}
+
+.account-dropdown-auth-btn:hover { background: var(--gray-50); }
+
+.account-dropdown-auth-btn.signup {
+  background: var(--hero-gradient);
+  color: #fff;
+  border-color: transparent;
+  margin-top: 6px;
+}
+
+.account-dropdown-auth-btn.signup:hover { opacity: 0.9; }
