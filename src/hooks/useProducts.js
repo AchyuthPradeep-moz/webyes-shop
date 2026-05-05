@@ -1,5 +1,3 @@
-// FIX 5: Hooks now read from shared ProductsContext instead of each fetching independently.
-// useProducts() returns the full list; useProduct(id) returns a single item by id.
 import { useContext } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
 

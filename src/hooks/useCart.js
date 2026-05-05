@@ -1,4 +1,3 @@
-// FIX 8: Moved out of CartContext.jsx so fast-refresh works correctly
 import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 
