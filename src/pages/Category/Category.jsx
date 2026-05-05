@@ -36,7 +36,7 @@ const Category = () => {
         {loading ? (
           <div className="spinner-wrap"><div className="spinner" /></div>
         ) : (
-          <div className="products-grid" data-testid="products-grid">
+          <div className="products-grid">
             {filtered.map((product, i) => (
               <div key={product.id} style={{ animationDelay: `${i * 0.05}s` }}>
                 <ProductCard product={product} />
