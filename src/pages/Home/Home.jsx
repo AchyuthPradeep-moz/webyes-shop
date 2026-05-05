@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { useProducts } from '../../hooks/useProducts';
+import { useContext } from 'react';
+import { ProductsContext } from '../../context/ProductsContext';
 import './Home.css';
 
 
@@ -40,7 +41,7 @@ CategoryCard.propTypes = {
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('All');
-  const { products, loading } = useProducts();
+  const { products, loading } = useContext(ProductsContext);
 
   const filtered = products.filter(p => {
     if (activeTab === 'All') return true;

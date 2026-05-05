@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { useProducts } from '../../hooks/useProducts';
+import { useContext } from 'react';
+import { ProductsContext } from '../../context/ProductsContext';
 import './Shop.css';
 
-const FILTER_TABS = ['All', 'Men', 'Women', 'Accessories', 'Shoes'];
+const FILTER_TABS = ['All', 'Men', 'Women', 'Accessories', 'Electronics'];
+
 
 const Shop = ({ searchQuery = '' }) => {
   const [activeTab, setActiveTab] = useState('All');
-  const { products, loading, error } = useProducts();
+  const { products, loading, error } = useContext(ProductsContext);
 
   const filtered = products.filter(p => {
     const matchesTab = activeTab === 'All' || p.mappedCategory === activeTab.toLowerCase();

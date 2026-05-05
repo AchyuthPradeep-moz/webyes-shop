@@ -1,36 +1,35 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// FIX 7: Replaced useNavigate + onClick with a Link so keyboard users and
+// right-click "open in new tab" both work correctly
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../hooks/useCart';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const { addItem } = useCart();
-  const navigate = useNavigate();
   const [added, setAdded] = useState(false);
 
   const handleAddToCart = (e) => {
+    // Prevent the Link from navigating when clicking "Add to Cart"
+    e.preventDefault();
     e.stopPropagation();
     addItem(product, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
 
-  const handleCardClick = () => {
-    navigate(`/product/${product.id}`);
-  };
-
   const categoryLabel = product.category.replace(/_/g, ' ').toUpperCase();
 
   return (
-    <article className="product-card" onClick={handleCardClick}>
+    <Link to={`/product/${product.id}`} className="product-card">
       <div className="product-card-image-wrap">
         {product.discount && (
           <span className="product-badge">-{product.discount}%</span>
         )}
         <button
           className="product-wishlist-btn"
-          onClick={e => e.stopPropagation()}
+          onClick={e => { e.preventDefault(); e.stopPropagation(); }}
           aria-label="Add to wishlist"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -65,7 +64,7 @@ const ProductCard = ({ product }) => {
           )}
         </div>
       </div>
-    </article>
+    </Link>
   );
 };
 

@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../hooks/useCart';
 import QuantitySelector from '../../components/QuantitySelector/QuantitySelector';
 import './Cart.css';
 
 const Cart = () => {
-  const { items, removeItem, updateQuantity, subtotal, totalItems, clearCart } = useCart();
+  const { items, removeItem, updateQuantity, subtotal, totalItems, clearCart, itemKey } = useCart();
   const navigate = useNavigate();
 
   if (items.length === 0) {
@@ -18,7 +18,7 @@ const Cart = () => {
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
             </svg>
             <h2>Your cart is empty</h2>
-            <p>Looks like you haven't added anything yet.</p>
+            <p>Looks like you haven&apos;t added anything yet.</p>
             <Link to="/shop" className="cart-shop-btn">Continue Shopping</Link>
           </div>
         </div>
@@ -38,19 +38,21 @@ const Cart = () => {
           <div className="cart-items-section">
             <ul className="cart-page-items">
               {items.map(item => (
-                <li key={item.id} className="cart-page-item">
+                <li key={itemKey(item)} className="cart-page-item">
                   <img src={item.image} alt={item.title} className="cart-page-item-img" />
                   <div className="cart-page-item-info">
                     <h3 className="cart-page-item-title">{item.title}</h3>
+                    {item.selectedSize && <p className="cart-page-item-variant">Size: {item.selectedSize}</p>}
+                    {item.selectedColor && <p className="cart-page-item-variant">Color: {item.selectedColor}</p>}
                     <p className="cart-page-item-price">${item.price.toFixed(2)}</p>
                     <div className="cart-page-item-actions">
                       <QuantitySelector
                         quantity={item.quantity}
-                        onChange={(qty) => updateQuantity(item.id, qty)}
+                        onChange={(qty) => updateQuantity(itemKey(item), qty)}
                       />
                       <button
                         className="cart-page-remove"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(itemKey(item))}
                         aria-label={`Remove ${item.title}`}
                       >
                         Remove

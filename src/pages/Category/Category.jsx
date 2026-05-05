@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { useProducts } from '../../hooks/useProducts';
+import { useContext } from 'react';
+import { ProductsContext } from '../../context/ProductsContext';
 import './Category.css';
 
 const CATEGORY_LABELS = {
@@ -12,7 +13,7 @@ const CATEGORY_LABELS = {
 
 const Category = () => {
   const { categoryId } = useParams();
-  const { products, loading } = useProducts();
+  const { products, loading } = useContext(ProductsContext);
 
   const filtered = products.filter(p => p.mappedCategory === categoryId);
   const label = CATEGORY_LABELS[categoryId] || categoryId;

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { ProductsProvider } from './context/ProductsContext';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
@@ -19,6 +20,7 @@ const Layout = ({ children, onSearch }) => (
   <>
     <Navbar onSearch={onSearch} />
     {children}
+    <Footer />
   </>
 );
 
@@ -34,17 +36,19 @@ const App = () => {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<Layout onSearch={setSearchQuery}><Home /><Footer /></Layout>} />
-            <Route path="/shop" element={<Layout onSearch={setSearchQuery}><Shop searchQuery={searchQuery} /><Footer /></Layout>} />
-            <Route path="/cart" element={<Layout onSearch={setSearchQuery}><Cart /><Footer /></Layout>} />
-            <Route path="/category/:categoryId" element={<Layout onSearch={setSearchQuery}><Category /><Footer /></Layout>} />
-            <Route path="/product/:id" element={<Layout onSearch={setSearchQuery}><ProductDetail /></Layout>} />
-            <Route path="/checkout" element={<Layout onSearch={setSearchQuery}><Checkout /></Layout>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <ProductsProvider>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Layout onSearch={setSearchQuery}><Home /></Layout>} />
+              <Route path="/shop" element={<Layout onSearch={setSearchQuery}><Shop searchQuery={searchQuery} /></Layout>} />
+              <Route path="/cart" element={<Layout onSearch={setSearchQuery}><Cart /></Layout>} />
+              <Route path="/category/:categoryId" element={<Layout onSearch={setSearchQuery}><Category /></Layout>} />
+              <Route path="/product/:id" element={<Layout onSearch={setSearchQuery}><ProductDetail /></Layout>} />
+              <Route path="/checkout" element={<Layout onSearch={setSearchQuery}><Checkout /></Layout>} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </ProductsProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

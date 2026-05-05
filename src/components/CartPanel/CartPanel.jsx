@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../hooks/useCart';
 import QuantitySelector from '../QuantitySelector/QuantitySelector';
 import './CartPanel.css';
 

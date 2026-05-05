@@ -1,8 +1,11 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const CartContext = createContext(null);
-const itemKey = (item) => `${item.id}-${item.selectedSize || ''}-${item.selectedColor || ''}`;
+
+export const CartContext = createContext(null);
+
+export const itemKey = (item) =>
+  `${item.id}-${item.selectedSize || ''}-${item.selectedColor || ''}`;
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -44,8 +47,23 @@ const cartReducer = (state, action) => {
   }
 };
 
+
+const initCart = () => {
+  try {
+    const saved = localStorage.getItem('cart_items');
+    return saved ? { items: JSON.parse(saved) } : { items: [] };
+  } catch {
+    return { items: [] };
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [state, dispatch] = useReducer(cartReducer, undefined, initCart);
+
+
+  useEffect(() => {
+    localStorage.setItem('cart_items', JSON.stringify(state.items));
+  }, [state.items]);
 
   const addItem = (product, quantity = 1) =>
     dispatch({ type: 'ADD_ITEM', payload: { ...product, quantity } });
@@ -58,16 +76,12 @@ export const CartProvider = ({ children }) => {
   const subtotal = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items: state.items, itemKey, addItem, removeItem, updateQuantity, clearCart, totalItems, subtotal }}>
+    <CartContext.Provider
+      value={{ items: state.items, itemKey, addItem, removeItem, updateQuantity, clearCart, totalItems, subtotal }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
 CartProvider.propTypes = { children: PropTypes.node.isRequired };
-
-export const useCart = () => {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error('useCart must be used within CartProvider');
-  return ctx;
-};

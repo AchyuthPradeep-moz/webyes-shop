@@ -1,70 +1,17 @@
-import { useState, useEffect } from 'react';
-
-const CATEGORY_MAP = {
-  "men's clothing": "men",
-  "women's clothing": "women",
-  "jewelery": "accessories",
-  "electronics": "electronics",
-};
-
-const transformProduct = (p) => ({
-  id: p.id,
-  title: p.title,
-  price: p.price,
-  image: p.image,
-  category: p.category,
-  mappedCategory: CATEGORY_MAP[p.category] || 'accessories',
-  rating: p.rating,
-  description: p.description,
-  originalPrice: parseFloat((p.price * (1 + Math.random() * 0.5 + 0.1)).toFixed(2)),
-  discount: Math.floor(Math.random() * 40 + 10),
-});
+// FIX 5: Hooks now read from shared ProductsContext instead of each fetching independently.
+// useProducts() returns the full list; useProduct(id) returns a single item by id.
+import { useContext } from 'react';
+import { ProductsContext } from '../context/ProductsContext';
 
 export const useProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch('https://fakestoreapi.com/products');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        setProducts(data.map(transformProduct));
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-  return { products, loading, error };
+  const ctx = useContext(ProductsContext);
+  if (!ctx) throw new Error('useProducts must be used within ProductsProvider');
+  return ctx;
 };
 
 export const useProduct = (id) => {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (!id) return;
-    const fetchProduct = async () => {
-      try {
-        const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-        if (!res.ok) throw new Error('Failed to fetch');
-        const data = await res.json();
-        setProduct(transformProduct(data));
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProduct();
-  }, [id]);
-
+  const { products, loading, error } = useProducts();
+  const product = products.find(p => p.id === Number(id)) ?? null;
+  // While the shared fetch is still in flight, mirror the loading state
   return { product, loading, error };
 };

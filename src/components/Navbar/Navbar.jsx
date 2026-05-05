@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useCart } from '../../context/CartContext';
-import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../hooks/useCart';
+import { useAuth } from '../../hooks/useAuth';
 import CartPanel from '../CartPanel/CartPanel';
 import './Navbar.css';
 
