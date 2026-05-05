@@ -10,6 +10,5 @@ export const useProducts = () => {
 export const useProduct = (id) => {
   const { products, loading, error } = useProducts();
   const product = products.find(p => p.id === Number(id)) ?? null;
-  // While the shared fetch is still in flight, mirror the loading state
   return { product, loading, error };
 };
